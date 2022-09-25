@@ -1,0 +1,33 @@
+{
+  "name": "tiny-vue2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development rollup -w -c",
+    "build": "cross-env NODE_ENV=production rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@types/lodash": "^4.14.184",
+    "@types/node": "^18.7.19",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.21.0",
+    "prettier": "^2.7.1",
+    "rollup": "^2.77.3",
+    "rollup-plugin-serve": "^2.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.3"
+  }
+}
