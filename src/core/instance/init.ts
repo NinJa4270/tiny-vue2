@@ -26,5 +26,7 @@ export function initMixin(Vue: Component) {
     initInjections(vm)
     initState(vm)
     callHook(vm, 'created')
+
+    // TODO: 如果$el 存在 则自动调用$mount方法
   }
 }
