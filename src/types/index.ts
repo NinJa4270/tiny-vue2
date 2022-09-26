@@ -1,10 +1,14 @@
+export interface Options {
+  data?: any
+}
+
 export declare class Component {
   constructor(options?: any)
   // _init
   _uid: number
   _isVue: boolean
   _self: Component
-  $options: object
+  $options: Options
 
   // initLifecyle
   $parent?: Component
@@ -32,9 +36,10 @@ export declare class Component {
 
   // initState
   _watchers: []
-  $props: object
-  $data: object
+  $props: any
+  $data: any
   _computedWatchers: []
+  _data: any
 
   _init: Func
   $on: Func
@@ -54,6 +59,6 @@ export declare class Component {
   $watch: Func
 }
 
-type Func = (...args: any[]) => unknown
+export type Func = (...args: any[]) => unknown
 
 // export type Component = typeof Vue

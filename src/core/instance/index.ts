@@ -1,10 +1,11 @@
+import { Options } from 'src/types'
 import { eventsMixin } from './events'
 import { initMixin } from './init'
 import { lifecycleMixin } from './lifecycle'
 import { renderMixin } from './render'
 import { stateMixin } from './state'
 
-function Vue(options: object) {
+function Vue(options: Options) {
   // @ts-ignore
   this._init(options)
 }

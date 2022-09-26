@@ -11,18 +11,34 @@
     <script type="module">
       import Vue from './dist/index.esm.js'
       const vm = new Vue({
-        data: {
-          a: 1,
-          arr: [1, 2, 3],
-          obj: {
-            abc: {
-              d: 1,
+        // data: {
+        //   a: 1,
+        //   arr: [1, 2, 3],
+        //   obj: {
+        //     abc: {
+        //       d: 1,
+        //     },
+        //     res: [{ ab: 1 }, { numer: 2 }],
+        //   },
+        // },
+
+        data() {
+          console.log('function data');
+          return {
+            a: 1,
+            arr: [1, 2, 3],
+            obj: {
+              abc: {
+                d: 1,
+              },
+              res: [{ ab: 1 }, { numer: 2 }],
             },
-            res: [{ ab: 1 }, { numer: 2 }],
-          },
+          }
         },
       })
       console.log(vm)
+
+      console.log(vm.a);
     </script>
   </body>
 </html>

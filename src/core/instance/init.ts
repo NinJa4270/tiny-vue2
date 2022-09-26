@@ -1,4 +1,4 @@
-import { Component } from '../../types'
+import { Component, Options } from '../../types'
 import { initEvents } from './events'
 import { initInjections } from './inject'
 import { callHook, initLifecycle } from './lifecycle'
@@ -9,7 +9,7 @@ let uid = 0
 
 export function initMixin(Vue: typeof Component) {
   console.log('initMixin')
-  Vue.prototype._init = function (options: object) {
+  Vue.prototype._init = function (options: Options) {
     console.log('init')
     const vm: Component = this
     vm._uid = uid++
