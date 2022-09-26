@@ -1,4 +1,3 @@
-import { Component } from 'src/types'
 import { eventsMixin } from './events'
 import { initMixin } from './init'
 import { lifecycleMixin } from './lifecycle'
@@ -10,10 +9,15 @@ function Vue(options: object) {
   this._init(options)
 }
 
-initMixin(Vue as Component)
-stateMixin(Vue as Component)
-eventsMixin(Vue as Component)
-lifecycleMixin(Vue as Component)
-renderMixin(Vue as Component)
+// @ts-ignore
+initMixin(Vue)
+// @ts-ignore
+stateMixin(Vue)
+// @ts-ignore
+eventsMixin(Vue)
+// @ts-ignore
+lifecycleMixin(Vue)
+// @ts-ignore
+renderMixin(Vue)
 
 export default Vue

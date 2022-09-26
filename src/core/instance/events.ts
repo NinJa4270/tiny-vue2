@@ -1,5 +1,5 @@
 import { Component } from '../../types'
-export function eventsMixin(Vue: Component) {
+export function eventsMixin(Vue: typeof Component) {
   console.log('eventsMixin')
   Vue.prototype.$on = function () {}
   Vue.prototype.$once = function () {}

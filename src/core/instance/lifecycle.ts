@@ -1,6 +1,6 @@
 import { Component } from '../../types'
 
-export function lifecycleMixin(Vue: Component) {
+export function lifecycleMixin(Vue: typeof Component) {
   console.log('lifecycleMixin')
 
   Vue.prototype._update = function () {}

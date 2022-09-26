@@ -1,6 +1,6 @@
 import { Component } from '../../types'
 
-export function stateMixin(Vue: Component) {
+export function stateMixin(Vue: typeof Component) {
   console.log('stateMixin')
 
   // Object.defineProperty(Vue.prototype, '$data', {})
