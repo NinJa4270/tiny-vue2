@@ -8,10 +8,20 @@
   </head>
   <body>
     <div id="app"></div>
-
     <script type="module">
       import Vue from './dist/index.esm.js'
-      const vm = new Vue()
+      const vm = new Vue({
+        data: {
+          a: 1,
+          arr: [1, 2, 3],
+          obj: {
+            abc: {
+              d: 1,
+            },
+            res: [{ ab: 1 }, { numer: 2 }],
+          },
+        },
+      })
       console.log(vm)
     </script>
   </body>

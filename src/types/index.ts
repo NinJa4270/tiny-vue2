@@ -1,8 +1,5 @@
-import Vue from '../core/instance'
-
-export interface Component {
-  (): typeof Vue
-
+export declare class Component {
+  constructor(options?: any)
   // _init
   _uid: number
   _isVue: boolean
@@ -38,6 +35,25 @@ export interface Component {
   $props: object
   $data: object
   _computedWatchers: []
+
+  _init: Func
+  $on: Func
+  $once: Func
+  $off: Func
+  $emit: Func
+
+  _update: Func
+  $forceUpdate: Func
+  $destroy: Func
+
+  nextTick: Func
+  _render: Func
+
+  $set: Func
+  $delete: Func
+  $watch: Func
 }
+
+type Func = (...args: any[]) => unknown
 
 // export type Component = typeof Vue

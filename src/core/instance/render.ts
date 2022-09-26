@@ -1,6 +1,6 @@
 import { Component } from '../../types'
 
-export function renderMixin(Vue: Component) {
+export function renderMixin(Vue: typeof Component) {
   console.log('renderMixin')
 
   installRenderHelpers(Vue.prototype)
