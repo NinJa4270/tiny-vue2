@@ -14,3 +14,19 @@ export function renderMixin(Vue: Component) {
  * @param {*} target
  */
 function installRenderHelpers(target: any) {}
+
+export function initRender(vm: Component) {
+  vm._vnode = null // 根
+  vm._staticTrees = null // 静态树
+  // TODO: 处理$slot $scopedSlots
+  vm.$slots = null
+  vm.$scopedSlots = Object.freeze({})
+
+  // TODO: 处理_c $createElement
+  // Vue内部使用
+  vm._c = function () {}
+  // 用户使用
+  vm.$createElement = function () {}
+
+  // TODO: $attrs/$listeners
+}

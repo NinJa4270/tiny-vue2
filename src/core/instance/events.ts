@@ -6,3 +6,9 @@ export function eventsMixin(Vue: Component) {
   Vue.prototype.$off = function () {}
   Vue.prototype.$emit = function () {}
 }
+
+export function initEvents(vm: Component) {
+  vm._events = Object.create(null)
+  vm._hasHookEvent = false
+  // TODO: 外部定义的附加事件 在当前更新
+}
