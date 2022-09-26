@@ -1,4 +1,5 @@
 import { Component, Func } from '../../types'
+import { observe } from '../observe'
 
 export function stateMixin(Vue: typeof Component) {
   console.log('stateMixin')
@@ -42,6 +43,7 @@ function initData(vm: Component) {
     const key = keys[i]
     proxy(vm, '_data', key)
   }
+  observe(data, true)
 }
 
 function getData(data: Func, vm: Component): any {
