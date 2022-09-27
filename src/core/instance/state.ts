@@ -19,7 +19,6 @@ export function initState(vm: Component) {
   vm.$props = {}
   // TODO: 处理methods
   // 处理data
-  console.log('opts', opts)
   if (opts.data) {
     initData(vm)
   }

@@ -1,3 +1,5 @@
+import { Watcher } from 'src/core/observe/watcher'
+
 export interface Options {
   data?: any
 }
@@ -15,7 +17,7 @@ export declare class Component {
   $root: Component
   $children: Component[]
   $refs: object
-  _watcher: null
+  _watcher: Watcher | null
   _inactive: null
   _directInactive: boolean
   _isMounted: boolean
@@ -35,7 +37,7 @@ export declare class Component {
   $createElement: any
 
   // initState
-  _watchers: []
+  _watchers: Watcher[]
   $props: any
   $data: any
   _computedWatchers: []

@@ -73,10 +73,14 @@ export function defineReactive(obj: Object, key: string, val?: any, customSetter
     configurable: true,
     get: function reactiveGetter() {
       const value = getter ? getter.call(obj) : val
-      if (childOb) {
-        childOb.dep.depend()
-        if (Array.isArray(value)) {
-          dependArray(value)
+      // 依赖收集
+      if (Dep.target) {
+        dep.depend()
+        if (childOb) {
+          childOb.dep.depend()
+          if (Array.isArray(value)) {
+            dependArray(value)
+          }
         }
       }
       return value

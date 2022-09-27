@@ -1,4 +1,5 @@
 import { Component } from '../../types'
+import { Watcher } from '../observe/watcher'
 
 export function lifecycleMixin(Vue: typeof Component) {
   console.log('lifecycleMixin')
@@ -29,4 +30,16 @@ export function initLifecycle(vm: Component) {
 
 export function callHook(vm: Component, hook: string) {
   // TODO:生命周期
+}
+
+export function mountComponent(vm: Component) {
+  // TODO: 其他功能
+
+  new Watcher(
+    vm, // 实例
+    () => {}, // expOrFn
+    () => {}, // cb
+    {}, // options
+    true // render watcher
+  )
 }
