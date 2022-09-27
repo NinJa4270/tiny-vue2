@@ -36,7 +36,6 @@ function initData(vm: Component) {
 
   // 将data代理到vm上
   const keys = Object.keys(data)
-  console.log('keys', keys)
   // TODO: props/methods 重名判断
   let i = keys.length
   while (i--) {

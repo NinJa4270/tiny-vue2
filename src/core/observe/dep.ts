@@ -1,3 +1,13 @@
+let uid = 0
 export class Dep {
-  constructor() {}
+  id: number
+  subs: never[]
+  constructor() {
+    this.id = uid++
+    this.subs = []
+  }
+
+  depend() {}
+
+  notify() {}
 }
