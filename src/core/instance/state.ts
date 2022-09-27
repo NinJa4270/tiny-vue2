@@ -1,5 +1,5 @@
-import { Component, Func } from '../../types'
-import { observe } from '../observe'
+import { Component, Func, Object } from '../../types'
+import { isPlainObject, observe } from '../observe'
 import { Dep } from '../observe/dep'
 import { Watcher } from '../observe/watcher'
 
@@ -23,7 +23,23 @@ export function stateMixin(Vue: typeof Component) {
 
   Vue.prototype.$set = function () {}
   Vue.prototype.$delete = function () {}
-  Vue.prototype.$watch = function () {}
+  Vue.prototype.$watch = function (expOrFn: string | Function, cb: any, options?: Object) {
+    console.log('%cstate.ts line:27 expOrFn', 'color: #007acc;', expOrFn);
+    console.log('%cstate.ts line:27 cb', 'color: #007acc;', cb);
+    console.log('%cstate.ts line:27 options', 'color: #007acc;', options);
+    const vm: Component = this
+    if (isPlainObject(cb)) {
+      return createWatcher(vm, expOrFn, options)
+    }
+    options = options || {}
+    options.user = true
+    const watcher = new Watcher(vm, expOrFn, cb, options)
+    console.log('%cstate.ts line:34 watcher', 'color: #007acc;', watcher);
+    // TODO: 处理 immediate
+    return function unwatchFn() {
+      watcher.teardown()
+    }
+  }
 }
 
 export function initState(vm: Component) {
@@ -39,8 +55,9 @@ export function initState(vm: Component) {
   if (opts.computed) {
     initComputed(vm, opts.computed)
   }
-  // vm._computedWatchers = []
-  // TODO: 处理watch
+  if (opts.watch) {
+    initWatch(vm, opts.watch)
+  }
 }
 
 function initData(vm: Component) {
@@ -118,6 +135,33 @@ function createComputedGetter(key: string) {
       return watcher.value
     }
   }
+}
+
+function initWatch(vm: Component, watch: Object) {
+  let key: keyof typeof watch
+  for (key in watch) {
+    console.log('%cstate.ts line:140 key', 'color: #007acc;', key);
+    const handler = watch[key]
+    if (Array.isArray(handler)) {
+      for (let i = 0; i < handler.length; i++) {
+        createWatcher(vm, key, handler[i])
+      }
+    } else {
+      createWatcher(vm, key, handler)
+    }
+  }
+}
+
+function createWatcher(vm: Component, expOrFn: string | Function, handler: any, options?: Object) {
+  if (isPlainObject(handler)) {
+    options = handler
+    handler = handler.handler
+  }
+  if (typeof handler === 'string') {
+    handler = vm[handler]
+  }
+  console.log('%cstate.ts line:160 handler', 'color: #007acc;', handler);
+  return vm.$watch(expOrFn, handler, options)
 }
 
 export function noop(a?: any, b?: any, c?: any) {}

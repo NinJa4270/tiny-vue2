@@ -3,6 +3,7 @@ import { Watcher } from 'src/core/observe/watcher'
 export interface Options {
   data?: any
   computed: Object
+  watch: Object
 }
 
 export interface WatcherOptions {
@@ -12,6 +13,7 @@ export interface WatcherOptions {
 
 export declare class Component {
   constructor(options?: any)
+  [key: string]: any
   // _init
   _uid: number
   _isVue: boolean
@@ -62,6 +64,7 @@ export declare class Component {
   nextTick: Func
   _render: Func
 
+  // stateMixin
   $set: Func
   $delete: Func
   $watch: Func
@@ -69,4 +72,7 @@ export declare class Component {
 
 export type Func = (...args: any[]) => unknown
 
-// export type Component = typeof Vue
+export interface Object {
+  [key: string]: any
+}
+

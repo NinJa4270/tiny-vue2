@@ -1,5 +1,6 @@
 import { arrayMethods } from './array'
 import { Dep } from './dep'
+import { Object } from '../../types'
 
 export function observe(value: any, asRootData?: boolean) {
   // TODO: 判断是否为 VNode
@@ -48,10 +49,6 @@ export class Observer {
 function protoAugment(target: Array<unknown>, src: Object) {
   // @ts-ignore
   target.__proto__ = src
-}
-
-interface Object {
-  [key: string]: any
 }
 
 export function defineReactive(obj: Object, key: string, val?: any, customSetter?: Function, shallow?: boolean) {

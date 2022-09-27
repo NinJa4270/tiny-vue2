@@ -31,6 +31,7 @@ export class Watcher {
       vm._watcher = this
     }
     // TODO: 处理配置项 options
+    console.log('%cwatcher.ts line:34 options.sync', 'color: #007acc;', !!options.sync);
     if (options) {
       this.user = !!options.user
       this.lazy = !!options.lazy
@@ -120,6 +121,8 @@ export class Watcher {
     this.value = this.get()
     this.dirty = false
   }
+
+  teardown() {}
 }
 
 export const unicodeRegExp =
