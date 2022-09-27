@@ -2,12 +2,20 @@ import { Watcher } from './watcher'
 
 let uid = 0
 export class Dep {
-  static target?: Watcher
+  static target?: Watcher | null
   id: number
   subs: Watcher[]
   constructor() {
     this.id = uid++
     this.subs = []
+  }
+
+  removeSub(sub: Watcher) {
+    remove(this.subs, sub)
+  }
+
+  addSub(sub: Watcher) {
+    this.subs.push(sub)
   }
 
   depend() {
@@ -28,4 +36,23 @@ export class Dep {
   }
 }
 
-// TODO: target 赋值
+Dep.target = null
+const targetStack: Watcher[] = []
+export function pushTarget(target: Watcher) {
+  targetStack.push(target)
+  Dep.target = target
+}
+
+export function popTarget() {
+  targetStack.pop()
+  Dep.target = targetStack[targetStack.length - 1]
+}
+
+export function remove(arr: Array<any>, item: any): Array<any> | void {
+  if (arr.length) {
+    const index = arr.indexOf(item)
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}

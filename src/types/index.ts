@@ -2,6 +2,12 @@ import { Watcher } from 'src/core/observe/watcher'
 
 export interface Options {
   data?: any
+  computed: Object
+}
+
+export interface WatcherOptions {
+  lazy?: boolean
+  user?: boolean
 }
 
 export declare class Component {

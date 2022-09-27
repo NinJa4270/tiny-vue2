@@ -11,19 +11,7 @@
     <script type="module">
       import Vue from './dist/index.esm.js'
       const vm = new Vue({
-        // data: {
-        //   a: 1,
-        //   arr: [1, 2, 3],
-        //   obj: {
-        //     abc: {
-        //       d: 1,
-        //     },
-        //     res: [{ ab: 1 }, { numer: 2 }],
-        //   },
-        // },
-
         data() {
-          console.log('function data')
           return {
             a: 1,
             arr: [1, 2, 3],
@@ -35,10 +23,30 @@
             },
           }
         },
+        computed: {
+          x: function () {
+            console.log('**** computed ****');
+            return this.a
+          },
+          y: {
+            get() {
+              return this.arr
+            },
+          },
+        },
+        watch: {
+          a(n, o) {
+            console.log('n', n)
+            console.log('o', o)
+          },
+        },
       })
-      console.log(vm)
 
-      console.log(vm.a)
+      console.log(vm)
+      console.log('vm.x', vm.x)
+      vm.a = 15
+      console.log('vm.x', vm.x)
+      console.log('vm.x', vm.x)
     </script>
   </body>
 </html>
