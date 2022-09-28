@@ -12,54 +12,17 @@
       import Vue from './dist/index.esm.js'
       const vm = new Vue({
         data() {
-          return {
-            a: 1,
-            b: 2,
-            g: 100,
-            arr: [1, 2, 3],
-            c: {
-              d: {
-                f: 100,
-              },
-            },
-          }
+          return {}
         },
-        computed: {
-          x: function () {
-            return this.a
-          },
-          y: {
-            get() {
-              return this.arr
-            },
-          },
+        computed: {},
+        watch: {},
+        beforeCreate() {
+          console.log('beforeCreate')
         },
-        watch: {
-          a(n, o) {
-            console.log('watch')
-            console.log('n', n)
-            console.log('o', o)
-          },
-          c: {
-            handler(n, o) {
-              console.log('n', n)
-              console.log('o', o)
-            },
-            deep: true,
-          },
-          g: {
-            handler(n, o) {
-              console.log('n', n)
-              console.log('o', o)
-            },
-            immediate: true,
-          },
+        created() {
+          console.log('created')
         },
       })
-      vm.a = 100
-      vm.c.d.f = 15
-
-      console.log(vm)
     </script>
   </body>
 </html>

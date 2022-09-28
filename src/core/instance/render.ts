@@ -1,7 +1,7 @@
 import { Component } from '../../types'
 
 export function renderMixin(Vue: typeof Component) {
-  console.log('renderMixin')
+  console.log('%crender.ts => "rollup renderMixin"', 'color: red;')
 
   installRenderHelpers(Vue.prototype)
 

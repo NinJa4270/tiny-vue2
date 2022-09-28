@@ -16,7 +16,7 @@ const sharedPropertyDefinition: {
 }
 
 export function stateMixin(Vue: typeof Component) {
-  console.log('stateMixin')
+  console.log('%cstate.ts => rollup stateMixin"', 'color: red;')
 
   // Object.defineProperty(Vue.prototype, '$data', {})
   // Object.defineProperty(Vue.prototype, '$props', {})

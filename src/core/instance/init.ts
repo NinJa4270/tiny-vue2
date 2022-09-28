@@ -8,7 +8,8 @@ import { initState } from './state'
 let uid = 0
 
 export function initMixin(Vue: typeof Component) {
-  console.log('initMixin')
+  console.log('%cinit.ts => rollup initMixin"', 'color: red;')
+
   Vue.prototype._init = function (options: Options) {
     console.log('init')
     const vm: Component = this

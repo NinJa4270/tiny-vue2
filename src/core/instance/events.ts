@@ -1,6 +1,7 @@
 import { Component } from '../../types'
 export function eventsMixin(Vue: typeof Component) {
-  console.log('eventsMixin')
+  console.log('%cevents.ts => rollup eventsMixin"', 'color: red;')
+
   Vue.prototype.$on = function () {}
   Vue.prototype.$once = function () {}
   Vue.prototype.$off = function () {}

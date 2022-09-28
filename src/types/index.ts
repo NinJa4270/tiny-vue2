@@ -4,8 +4,8 @@ export interface Options {
   data?: any
   computed: Object
   watch: Object
+  [key: string]: any
 }
-
 export interface WatcherOptions {
   lazy?: boolean
   user?: boolean

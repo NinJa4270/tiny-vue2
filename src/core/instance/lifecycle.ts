@@ -2,7 +2,7 @@ import { Component } from '../../types'
 import { Watcher } from '../observe/watcher'
 
 export function lifecycleMixin(Vue: typeof Component) {
-  console.log('lifecycleMixin')
+  console.log('%clifecycle.ts => "rollup lifecycleMixin"', 'color: red;');
 
   Vue.prototype._update = function () {}
   Vue.prototype.$forceUpdate = function () {}
