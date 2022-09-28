@@ -9,6 +9,8 @@ export interface Options {
 export interface WatcherOptions {
   lazy?: boolean
   user?: boolean
+  before?: Function
+  deep?: boolean
 }
 
 export declare class Component {
@@ -75,4 +77,3 @@ export type Func = (...args: any[]) => unknown
 export interface Object {
   [key: string]: any
 }
-

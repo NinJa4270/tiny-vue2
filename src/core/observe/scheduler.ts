@@ -1,8 +1,9 @@
+import { nextTick } from './next-tick'
 import { Watcher } from './watcher'
 
 const queue: Watcher[] = []
 let waiting = false
-const has: { [key: number]: boolean } = {}
+const has: { [key: number]: boolean | null } = {}
 let flushing = false
 let index = 0
 
@@ -19,15 +20,28 @@ export function queueWatcher(watcher: Watcher) {
       }
       queue.splice(i + 1, 0, watcher)
     }
-
-    if (waiting) {
+    if (!waiting) {
       waiting = true
-
       nextTick(flushSchedulerQueue)
     }
   }
+  // TODO: 保存副本
+  // TODO: 重置状态
+  // TODO: 调用组件更新钩子
+
 }
 
-function flushSchedulerQueue() {}
-
-function nextTick(cb?: Function, ctx?: Object) {}
+function flushSchedulerQueue() {
+  flushing = true
+  let watcher, id
+  // 排序
+  queue.sort((a, b) => a.id - b.id)
+  
+  for (index = 0; index < queue.length; index++) {
+    watcher = queue[index]
+    if (watcher.before) watcher.before()
+    id = watcher.id
+    has[id] = null
+    watcher.run()
+  }
+}

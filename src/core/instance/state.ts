@@ -1,6 +1,6 @@
 import { Component, Func, Object } from '../../types'
 import { isPlainObject, observe } from '../observe'
-import { Dep } from '../observe/dep'
+import { Dep, popTarget, pushTarget } from '../observe/dep'
 import { Watcher } from '../observe/watcher'
 
 const sharedPropertyDefinition: {
@@ -31,10 +31,11 @@ export function stateMixin(Vue: typeof Component) {
     options = options || {}
     options.user = true
     const watcher = new Watcher(vm, expOrFn, cb, options)
-    // TODO: 处理 immediate
-    // if(options.immediate){
-        
-    // }
+    if (options.immediate) {
+      pushTarget()
+      cb.call(vm, watcher.value)
+      popTarget()
+    }
     return function unwatchFn() {
       watcher.teardown()
     }

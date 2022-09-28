@@ -1,7 +1,9 @@
 import { Component, WatcherOptions } from 'src/types'
+import { isObject } from './index'
 import { noop } from '../instance/state'
 import { Dep, popTarget, pushTarget } from './dep'
 import { queueWatcher } from './scheduler'
+import { traverse } from './traverse'
 
 let uid = 0
 export class Watcher {
@@ -18,6 +20,9 @@ export class Watcher {
   expression: string
   getter?: Function
   user?: boolean
+  before?: Function
+  active: boolean
+  deep?: boolean
   constructor(
     vm: Component,
     expOrFn: string | Function,
@@ -32,15 +37,17 @@ export class Watcher {
     }
     // TODO: 处理配置项 options
     if (options) {
+      this.deep = !!options.deep
       this.user = !!options.user
       this.lazy = !!options.lazy
+      this.before = options.before
     } else {
       this.lazy = false
     }
     this.cb = cb
     this.id = ++uid
     // TODO: 其他属性初始化
-
+    this.active = true
     this.dirty = this.lazy
 
     this.deps = []
@@ -59,7 +66,6 @@ export class Watcher {
         // 警告提示
       }
     }
-
     this.value = this.lazy ? undefined : this.get()
   }
 
@@ -72,16 +78,40 @@ export class Watcher {
     } catch (e) {
       if (this.user) {
         // 错误处理提示
+        console.log(e)
       } else {
         throw e
       }
     } finally {
-      // TODO: depp 属性的处理
+      if (this.deep) {
+        traverse(value)
+      }
       popTarget()
       this.cleanupDeps()
     }
     return value
   }
+
+  run() {
+    if (this.active) {
+      const value = this.get()
+      if (value !== this.value || isObject(value) || this.deep) {
+        const oldValue = this.value
+        this.value = value
+        if (this.user) {
+          // 新版本会用invokeWithErrorHandling包裹
+          try {
+            this.cb.call(this.vm, value, oldValue)
+          } catch (e) {
+            console.log(e)
+          }
+        } else {
+          this.cb.call(this.vm, value, oldValue)
+        }
+      }
+    }
+  }
+
   cleanupDeps() {
     // 遍历当前 watcher 所绑定多所有 deps
     let i = this.deps.length
@@ -91,6 +121,14 @@ export class Watcher {
         dep.removeSub(this)
       }
     }
+    let tmp: any = this.depIds
+    this.depIds = this.newDepIds
+    this.newDepIds = tmp
+    this.newDepIds.clear()
+    tmp = this.deps
+    this.deps = this.newDeps
+    this.newDeps = tmp
+    this.newDeps.length = 0
   }
 
   addDep(dep: Dep) {
@@ -104,7 +142,12 @@ export class Watcher {
     }
   }
 
-  depend() {}
+  depend() {
+    let i = this.deps.length
+    while (i--) {
+      this.deps[i].depend()
+    }
+  }
 
   update() {
     // TODO: sync执行的方法
@@ -121,7 +164,17 @@ export class Watcher {
     this.dirty = false
   }
 
-  teardown() {}
+  teardown() {
+    if (this.active) {
+      // TODO: 生命周期的判断
+
+      let i = this.deps.length
+      while (i--) {
+        this.deps[i].removeSub(this)
+      }
+      this.active = false
+    }
+  }
 }
 
 export const unicodeRegExp =

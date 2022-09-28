@@ -28,7 +28,6 @@ export class Dep {
   notify() {
     // 拷贝一下 subs
     const subs = this.subs.slice()
-    // TODO: 排序
     // 遍历 当前dep实例收集的 watcher 依次执行它的update方法
     for (let i = 0, l = subs.length; i < l; i++) {
       subs[i].update()
@@ -37,8 +36,8 @@ export class Dep {
 }
 
 Dep.target = null
-const targetStack: Watcher[] = []
-export function pushTarget(target: Watcher) {
+const targetStack: (Watcher | undefined)[] = []
+export function pushTarget(target?: Watcher) {
   targetStack.push(target)
   Dep.target = target
 }
