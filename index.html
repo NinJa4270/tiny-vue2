@@ -14,6 +14,7 @@
         data() {
           return {
             a: 1,
+            b: 2,
             arr: [1, 2, 3],
             obj: {
               abc: {
@@ -25,7 +26,6 @@
         },
         computed: {
           x: function () {
-            console.log('**** computed ****');
             return this.a
           },
           y: {
@@ -36,15 +36,21 @@
         },
         watch: {
           a(n, o) {
+            console.log('watch')
             console.log('n', n)
             console.log('o', o)
+          },
+          b: {
+            handler(n, o) {
+              console.log('n', n)
+              console.log('o', o)
+            },
+            immediate: true,
           },
         },
       })
 
       vm.a = 15
-      vm.a = 12
-      vm.a = 13
     </script>
   </body>
 </html>
