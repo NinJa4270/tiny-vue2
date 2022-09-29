@@ -1,4 +1,4 @@
-import { isObject } from './index'
+import { isObject } from 'src/utils'
 
 const seenObjects: Set<number> = new Set()
 export function traverse(val: any) {

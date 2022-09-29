@@ -1,6 +1,7 @@
 import { Component } from 'src/types'
 import { extend } from 'src/utils'
 import { ASSET_TYPES } from 'src/utils/constants'
+import { mergeOptions } from 'src/utils/options'
 import config from '../config'
 import { defineReactive, observe } from '../observe'
 import { nextTick } from '../observe/next-tick'
@@ -17,7 +18,7 @@ export function initGlobalAPI(Vue: Component) {
   Vue.util = {
     //TODO: warn
     extend, // 合并对象
-    //TODO: mergeOptions, // 合并配置
+    mergeOptions, // 合并配置
     defineReactive,
   }
 
@@ -44,4 +45,3 @@ export function initGlobalAPI(Vue: Component) {
   initExtend(Vue)
   initAssetRegisters(Vue)
 }
-

@@ -1,6 +1,7 @@
 import { arrayMethods } from './array'
 import { Dep } from './dep'
 import { Object } from '../../types'
+import { hasOwn, isObject, isPlainObject } from 'src/utils'
 
 export function observe(value: any, asRootData?: boolean) {
   // TODO: 判断是否为 VNode
@@ -117,16 +118,4 @@ function dependArray(value: any[]) {
       dependArray(e)
     }
   }
-}
-
-const hasOwnProperty = Object.prototype.hasOwnProperty
-export function hasOwn(obj: Object | Array<any>, key: string): boolean {
-  return hasOwnProperty.call(obj, key)
-}
-export function isObject(obj: any): boolean {
-  return obj !== null && typeof obj === 'object'
-}
-const _toString = Object.prototype.toString
-export function isPlainObject(obj: any): boolean {
-  return _toString.call(obj) === '[object Object]'
 }

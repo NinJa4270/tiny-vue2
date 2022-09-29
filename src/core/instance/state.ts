@@ -1,5 +1,6 @@
+import { isPlainObject } from 'src/utils'
 import { Component, Func, Object } from '../../types'
-import { isPlainObject, observe } from '../observe'
+import { observe } from '../observe'
 import { Dep, popTarget, pushTarget } from '../observe/dep'
 import { Watcher } from '../observe/watcher'
 

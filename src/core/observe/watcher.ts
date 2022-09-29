@@ -1,5 +1,5 @@
 import { Component, WatcherOptions } from 'src/types'
-import { isObject } from './index'
+import { isObject } from 'src/utils'
 import { noop } from '../instance/state'
 import { Dep, popTarget, pushTarget } from './dep'
 import { queueWatcher } from './scheduler'
