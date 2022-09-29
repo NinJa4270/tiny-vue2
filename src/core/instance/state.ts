@@ -88,7 +88,8 @@ function getData(data: Func, vm: Component): any {
 const computedWatcherOptions = { lazy: true }
 
 function initComputed(vm: Component, computed: any) {
-  const watchers = (vm._computedWatchers = Object.create(null))
+  vm._computedWatchers = Object.create(null)
+  const watchers: Object = vm._computedWatchers
   // 遍历传入的 computed
   for (const key in computed) {
     const userDef = computed[key]
@@ -119,13 +120,14 @@ export function defineComputed(target: any, key: string, userDef: Object | Funct
     sharedPropertyDefinition.get = (userDef as any).get ? createComputedGetter(key) : noop
     sharedPropertyDefinition.set = (userDef as any).set || noop
   }
-
   Object.defineProperty(target, key, sharedPropertyDefinition as PropertyDescriptor)
 }
 
 function createComputedGetter(key: string) {
-  return function computedGetter(this: any) {
-    const watcher = this._computedWatchers[key]
+  return function computedGetter() {
+    // @ts-ignore
+    const watcher = this._computedWatchers && this._computedWatchers[key]
+
     if (watcher) {
       if (watcher.dirty) {
         watcher.evaluate()

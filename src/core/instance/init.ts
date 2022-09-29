@@ -18,7 +18,7 @@ export function initMixin(Vue: typeof Component) {
     // 合并options
     // 子组件 根组件执行不同的策略
     // TODO: 子组件
-    // 根组件 
+    // 根组件
     // TODO: 合并配置项 涉及的默认配置  合并全局配置 Vue.extends
     vm.$options = options || {}
     // ignore initProxy proxy代理
