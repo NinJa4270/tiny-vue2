@@ -133,10 +133,13 @@ export function mergeOptions(parent: Object, child: Object, vm?: Component): Obj
     child = child.options
   }
 
-  // TODO: 标准化处理
+  // 标准化处理
   // props
+  normalizeProps(child, vm)
   // inject
+  normalizeInject(child, vm)
   // directives
+  normalizeDirectives(child)
 
   // 递归合并
   if (!child._base) {
@@ -167,4 +170,57 @@ export function mergeOptions(parent: Object, child: Object, vm?: Component): Obj
   }
 
   return options
+}
+
+function normalizeProps(options: Object, vm?: Component) {
+  const props = options.prop
+  if (!props) return
+  const res: Object = {}
+  let i, val, name
+  if (Array.isArray(props)) {
+    i = props.length
+    while (i--) {
+      val = props[i]
+      if (typeof val === 'string') {
+        name = val // 这里标准化 key
+        res[name] = { type: null }
+      }
+    }
+  } else if (isPlainObject(props)) {
+    for (const key in props) {
+      val = props[key]
+      name = key
+      res[name] = isPlainObject(val) ? val : { type: val }
+    }
+  }
+
+  options.props = res
+}
+
+function normalizeInject(options: Object, vm?: Component) {
+  const inject = options.inject
+  if (!inject) return
+  const normalized: Object = (options.inject = {})
+  if (Array.isArray(inject)) {
+    for (let i = 0; i < inject.length; i++) {
+      normalized[inject[i]] = { from: inject[i] }
+    }
+  } else if (isPlainObject(inject)) {
+    for (const key in inject) {
+      const val = inject[key]
+      normalized[key] = isPlainObject(val) ? extend({ from: key }, val) : { from: val }
+    }
+  }
+}
+
+function normalizeDirectives(options: Object) {
+  const dirs = options.directives
+  if (dirs) {
+    for (const key in dirs) {
+      const def = dirs[key]
+      if (typeof def === 'function') {
+        dirs[key] = { bind: def, update: def }
+      }
+    }
+  }
 }
