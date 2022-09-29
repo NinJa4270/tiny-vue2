@@ -2,6 +2,7 @@ import { Watcher } from 'src/core/observe/watcher'
 
 export interface Options {
   data?: any
+  template: string | Element
   computed: Object
   watch: Object
   [key: string]: any

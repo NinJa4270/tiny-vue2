@@ -26,3 +26,11 @@ export function isValidArrayIndex(val: any): boolean {
   const n = parseFloat(String(val))
   return n >= 0 && Math.floor(n) === n && isFinite(val)
 }
+
+export function cached<F>(fn: Function): F {
+  const cache = Object.create(null)
+  return function cachedFn(str: string) {
+    const hit = cache[str]
+    return hit || (cache[str] = fn(str))
+  } as F
+}
