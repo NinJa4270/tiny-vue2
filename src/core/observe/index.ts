@@ -152,3 +152,22 @@ export function set(target: any[] | any, key: any, val: any) {
   ob.dep.notify()
   return val
 }
+
+export function del(target: any[] | any, key: any, val: any) {
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    target.splice(key, 1)
+    return
+  }
+  const ob = (target as any).__ob__
+  if (target._isVue || (ob && ob.vmCount)) {
+    return
+  }
+  if (!hasOwn(target, key)) {
+    return
+  }
+  delete target[key]
+  if (!ob) {
+    return
+  }
+  ob.dep.notify()
+}
