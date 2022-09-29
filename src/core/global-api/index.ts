@@ -38,7 +38,7 @@ export function initGlobalAPI(Vue: Component) {
 
   Vue.options._base = Vue
 
-  // TODO: extend
+  // TODO: extend 合并keep-live
 
   initUse(Vue)
   initMixin(Vue)
