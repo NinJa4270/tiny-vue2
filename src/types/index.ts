@@ -12,6 +12,9 @@ export interface WatcherOptions {
   before?: Function
   deep?: boolean
 }
+export interface Function {
+  [key: string]: any
+}
 
 export declare class Component {
   constructor(options?: any)
