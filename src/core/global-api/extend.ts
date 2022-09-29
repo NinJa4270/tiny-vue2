@@ -19,7 +19,6 @@ export function initExtend(Vue: Component) {
     }
     const name = extendOptions.name || Super.options.name
     const Sub: Object = function VueComponent(options: Object) {
-      console.log(options)
       // @ts-ignore
       this._init(options)
     }

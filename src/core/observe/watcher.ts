@@ -40,7 +40,7 @@ export class Watcher {
       this.deep = !!options.deep
       this.user = !!options.user
       this.lazy = !!options.lazy
-      this.before = options.before
+      this.before = options.before as Function
     } else {
       this.lazy = false
     }

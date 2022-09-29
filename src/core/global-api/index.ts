@@ -44,4 +44,5 @@ export function initGlobalAPI(Vue: Component) {
   initMixin(Vue)
   initExtend(Vue)
   initAssetRegisters(Vue)
+
 }

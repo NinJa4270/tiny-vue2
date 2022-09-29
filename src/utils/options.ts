@@ -36,6 +36,17 @@ export function mergeDataOrFn(parentVal: any, childVal: any, vm?: Component) {
       const from = typeof parentVal === 'function' ? parentVal.call(this, this) : parentVal
       return mergeData(to, from)
     }
+  } else {
+    return function mergedInstanceDataFn() {
+      // instance merge
+      const instanceData = typeof childVal === 'function' ? childVal.call(vm, vm) : childVal
+      const defaultData = typeof parentVal === 'function' ? parentVal.call(vm, vm) : parentVal
+      if (instanceData) {
+        return mergeData(instanceData, defaultData)
+      } else {
+        return defaultData
+      }
+    }
   }
 }
 function mergeData(to: Object, from?: Object): Object {
@@ -123,7 +134,7 @@ strats.props =
       const ret = Object.create(null)
       extend(ret, parentVal)
       if (childVal) extend(ret, childVal)
-      return
+      return ret
     }
 strats.provide = mergeDataOrFn
 
@@ -132,7 +143,6 @@ export function mergeOptions(parent: Object, child: Object, vm?: Component): Obj
     // @ts-ignore
     child = child.options
   }
-
   // 标准化处理
   // props
   normalizeProps(child, vm)

@@ -1,4 +1,6 @@
-import { Component, Options } from '../../types'
+import { extend } from 'src/utils'
+import { mergeOptions } from 'src/utils/options'
+import { Component, Options, Function, Object } from '../../types'
 import { initEvents } from './events'
 import { initInjections } from './inject'
 import { callHook, initLifecycle } from './lifecycle'
@@ -19,9 +21,9 @@ export function initMixin(Vue: typeof Component) {
     // 子组件 根组件执行不同的策略
     // TODO: 子组件
     // 根组件
-    // TODO: 合并配置项 涉及的默认配置  合并全局配置 Vue.extends
-    vm.$options = options || {}
+    vm.$options = mergeOptions(resolveConstructorOptions(vm.constructor), options || {}, vm) as Options
     // ignore initProxy proxy代理
+    vm._renderProxy = vm
     vm._self = vm
     // 初始化 $parent/$root/$children/$refs等
     initLifecycle(vm)
@@ -34,4 +36,37 @@ export function initMixin(Vue: typeof Component) {
 
     // TODO: 如果$el 存在 则自动调用$mount方法
   }
+}
+
+function resolveConstructorOptions(Ctor: Function) {
+  let options = Ctor.options
+  if (Ctor.super) {
+    const superOptions = resolveConstructorOptions(Ctor.super)
+    const cachedSuperOptions = Ctor.superOptions
+    if (superOptions !== cachedSuperOptions) {
+      Ctor.superOptions = superOptions
+      const modifiedOptions = resolveModifiedOptions(Ctor)
+      if (modifiedOptions) {
+        extend(Ctor.extendOptions, modifiedOptions)
+      }
+      options = Ctor.options = mergeOptions(superOptions, Ctor.extendOptions)
+      if (options.name) {
+        options.components[options.name] = Ctor
+      }
+    }
+  }
+  return options
+}
+
+function resolveModifiedOptions(Ctor: Function) {
+  let modified: Object | undefined
+  const latest = Ctor.options
+  const sealed = Ctor.sealedOptions
+  for (const key in latest) {
+    if (latest[key] !== sealed[key]) {
+      if (!modified) modified = {}
+      modified[key] = latest[key]
+    }
+  }
+  return modified
 }

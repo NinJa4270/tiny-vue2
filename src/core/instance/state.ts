@@ -127,7 +127,6 @@ function createComputedGetter(key: string) {
   return function computedGetter() {
     // @ts-ignore
     const watcher = this._computedWatchers && this._computedWatchers[key]
-
     if (watcher) {
       if (watcher.dirty) {
         watcher.evaluate()
