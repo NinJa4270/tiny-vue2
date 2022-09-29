@@ -2,6 +2,7 @@ import { extend, hasOwn, isPlainObject, nativeWatch } from './index'
 import { Component, Object } from '../types'
 import config from 'src/core/config'
 import { ASSET_TYPES, LIFECYCLE_HOOKS } from './constants'
+import { set } from 'src/core/observe'
 
 const strats = config.optionMergeStrategies
 
@@ -60,7 +61,7 @@ function mergeData(to: Object, from?: Object): Object {
     toVal = to[key]
     fromVal = from[key]
     if (!hasOwn(to, key)) {
-      // TODO: set(to,key,fromVal) //$set
+      set(to, key, fromVal) //$set
     } else if (toVal !== fromVal && isPlainObject(toVal) && isPlainObject(fromVal)) {
       mergeData(toVal, fromVal)
     }
