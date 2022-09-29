@@ -1,5 +1,7 @@
 import { Component } from 'src/types'
-import { Object } from '../../types'
+import { extend } from 'src/utils'
+import { ASSET_TYPES } from 'src/utils/constants'
+import config from '../config'
 import { defineReactive, observe } from '../observe'
 import { nextTick } from '../observe/next-tick'
 import { initAssetRegisters } from './assets'
@@ -9,9 +11,7 @@ import { initUse } from './use'
 export function initGlobalAPI(Vue: Component) {
   console.log('%cindex.ts => "rollup initGlobalAPI"', 'color: red;')
   const configDef: PropertyDescriptor = {}
-  //  TODO:定义的config常量
-  configDef.get = () => {}
-  configDef.set = () => {}
+  configDef.get = () => config
   Object.defineProperty(Vue, 'config', configDef)
 
   Vue.util = {
@@ -45,11 +45,3 @@ export function initGlobalAPI(Vue: Component) {
   initAssetRegisters(Vue)
 }
 
-export function extend(to: Object, _from: Object): Object {
-  for (const key in _from) {
-    to[key] = _from[key]
-  }
-  return to
-}
-
-export const ASSET_TYPES = ['component', 'directive', 'filter']

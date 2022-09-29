@@ -1,11 +1,11 @@
-import { hasOwn } from 'src/core/observe'
+// import { hasOwn } from 'src/core/observe'
 import { Component, Object } from '../types'
 
-const strats = Object.create(null)
+// const strats = Object.create(null)
 
-const defaultStrat = function (parentVal: any, childVal: any) {
-  return childVal === undefined ? parentVal : childVal
-}
+// const defaultStrat = function (parentVal: any, childVal: any) {
+//   return childVal === undefined ? parentVal : childVal
+// }
 
 export function mergeOptions(parent: Object, child: Object, vm?: Component): Object {
   if (typeof child === 'function') {
@@ -20,4 +20,11 @@ export function mergeOptions(parent: Object, child: Object, vm?: Component): Obj
 
   // 递归合并
   return {}
+}
+
+export function extend(to: Object, _from: Object): Object {
+  for (const key in _from) {
+    to[key] = _from[key]
+  }
+  return to
 }
