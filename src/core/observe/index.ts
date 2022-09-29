@@ -1,7 +1,7 @@
 import { arrayMethods } from './array'
 import { Dep } from './dep'
 import { Object } from '../../types'
-import { hasOwn, isObject, isPlainObject } from 'src/utils'
+import { hasOwn, isObject, isPlainObject, isValidArrayIndex } from 'src/utils'
 
 export function observe(value: any, asRootData?: boolean) {
   // TODO: 判断是否为 VNode
@@ -120,3 +120,35 @@ function dependArray(value: any[]) {
   }
 }
 
+export function set(target: any[] | any, key: any, val: any) {
+  // 如果是数组 并且索引合法
+  if (Array.isArray(target) && isValidArrayIndex(key)) {
+    // 如果索引长度大于数组长度
+    // splice 只会在最后添加元素 而用户再去取对应索引下标时 值不正确
+    // 如果通过修改length 再会在数组中 追加 empty 空元素
+    target.length = Math.max(target.length, key)
+    target.splice(key, 1, val)
+    return val
+  }
+  // 对象情况
+  if (key in target && !(key in Object.prototype)) {
+    ;(target as Object)[key] = val
+    return val
+  }
+
+  const ob = (target as any).__ob__
+  // 如果
+  if (target.isVue || (ob && ob.vmCount)) {
+    // 警告
+    return val
+  }
+
+  if (!ob) {
+    target[key] = val
+    return val
+  }
+
+  defineReactive(ob.value, key, val)
+  ob.dep.notify()
+  return val
+}

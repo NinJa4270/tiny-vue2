@@ -1,6 +1,6 @@
 import { isPlainObject } from 'src/utils'
 import { Component, Func, Object } from '../../types'
-import { observe } from '../observe'
+import { observe, set } from '../observe'
 import { Dep, popTarget, pushTarget } from '../observe/dep'
 import { Watcher } from '../observe/watcher'
 
@@ -22,7 +22,7 @@ export function stateMixin(Vue: typeof Component) {
   // Object.defineProperty(Vue.prototype, '$data', {})
   // Object.defineProperty(Vue.prototype, '$props', {})
 
-  Vue.prototype.$set = function () {}
+  Vue.prototype.$set = set
   Vue.prototype.$delete = function () {}
   Vue.prototype.$watch = function (expOrFn: string | Function, cb: any, options?: Object) {
     const vm: Component = this

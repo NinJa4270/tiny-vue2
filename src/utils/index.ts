@@ -20,3 +20,9 @@ export function isPlainObject(obj: any): boolean {
   return _toString.call(obj) === '[object Object]'
 }
 export const nativeWatch = ({} as Object).watch
+
+// 检查索引是否合法
+export function isValidArrayIndex(val: any): boolean {
+  const n = parseFloat(String(val))
+  return n >= 0 && Math.floor(n) === n && isFinite(val)
+}

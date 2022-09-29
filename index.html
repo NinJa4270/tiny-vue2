@@ -10,38 +10,19 @@
     <div id="app"></div>
     <script type="module">
       import Vue from './dist/index.esm.js'
-      // const vm = new Vue({
-      //   data() {
-      //     return {}
-      //   },
-      //   computed: {
-      //     a(){
-      //       return 'a'
-      //     }
-      //   },
-      //   watch: {},
-      //   beforeCreate() {
-      //     console.log('beforeCreate')
-      //   },
-      //   created() {
-      //     console.log('created')
-      //   },
-      // })
-
-      const Sub = Vue.extend({
-        name: 'Sub',
-        computed: {
-          bbbbb() {
-            return '11111'
-          },
+      const vm = new Vue({
+        data() {
+          return {
+            obj: {
+              a: 1,
+            },
+          }
         },
       })
 
-      const sub = new Sub()
-      console.log('%cindex.html line:36 Sub', 'color: #007acc;', Sub)
-      console.log('%cindex.html line:36 sub', 'color: #007acc;', sub)
-      // console.log('%cindex.html line:36 sub', 'color: #007acc;', sub.bbbbb)
-      // console.log('%cindex.html line:37 vm', 'color: #F00;', vm)
+      vm.$set(vm.obj, 'a', 15)
+      vm.$set(vm.obj, 'c', 'ccc')
+      console.log(vm.obj)
     </script>
   </body>
 </html>
