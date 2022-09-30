@@ -1,5 +1,5 @@
 import { createCompiler } from 'src/compiler'
-const baseOptions = {}
+import { baseOptions } from './options'
 
 const { compile, compileToFunctions } = createCompiler(baseOptions)
 

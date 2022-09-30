@@ -34,3 +34,5 @@ export function cached<F>(fn: Function): F {
     return hit || (cache[str] = fn(str))
   } as F
 }
+
+export const no = (a?: any, b?: any, c?: any) => false
