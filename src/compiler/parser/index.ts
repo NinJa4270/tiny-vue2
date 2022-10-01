@@ -1,3 +1,4 @@
+import { ASTText } from 'src/types/ast'
 import { no } from 'src/utils'
 import { Object } from '../../types'
 import { parseHTML } from './html-parser'
@@ -33,7 +34,7 @@ export function parse(template: string, options: Object) {
 
   const stack = []
   let root
-  let currentParent
+  let currentParent: any
   let inVPre = false
   let inPre = false
 
@@ -41,7 +42,29 @@ export function parse(template: string, options: Object) {
   function trimEndingWhitespace() {}
   function checkRootConstraints() {}
 
-  parseHTML()
+  parseHTML(template, {
+    expectHTML: options.expectHTML,
+    isUnaryTag: options.isUnaryTag,
+    canBeLeftOpenTag: options.canBeLeftOpenTag,
+    shouldDecodeNewlines: options.shouldDecodeNewlines,
+    shouldDecodeNewlinesForHref: options.shouldDecodeNewlinesForHref,
+    shouldKeepComment: options.comments,
+    outputSourceRange: options.outputSourceRange,
+    comment(text: string, start: number, end: number) {
+      if (currentParent) {
+        const child: ASTText = {
+          type: 3,
+          text,
+          isComment: true,
+        }
+        if (options.outputSourceRange) {
+          child.start = start
+          child.end = end
+        }
+        currentParent.children.push(child)
+      }
+    },
+  })
 
   return root
 }
